@@ -1,0 +1,23 @@
+version: "2"
+
+vars:
+  DOCKER_REGISTRY_ACCOUNT: skurtzemann
+  DOCKER_IMAGE: morgue
+  DOCKER_IMAGE_TAG: 0.0.1
+  DOCKER_IMAGE_FQDN: "{{.DOCKER_REGISTRY_ACCOUNT}}/{{.DOCKER_IMAGE}}:{{.DOCKER_IMAGE_TAG}}"
+
+tasks:
+  "name":
+    silent: true
+    desc: Display docker image name
+    cmds:
+      - cmd: echo {{.DOCKER_IMAGE_FQDN}}
+
+  "build":
+    desc: Build docker image
+    cmds:
+      - cmd: |
+          docker \
+          build \
+          -t {{.DOCKER_IMAGE_FQDN}} \
+          .
