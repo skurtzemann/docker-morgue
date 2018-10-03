@@ -3,7 +3,7 @@ version: "2"
 vars:
   DOCKER_REGISTRY_ACCOUNT: skurtzemann
   DOCKER_IMAGE: morgue
-  DOCKER_IMAGE_TAG: 0.0.1
+  DOCKER_IMAGE_TAG: {sh: cat VERSION}
   DOCKER_IMAGE_FQDN: "{{.DOCKER_REGISTRY_ACCOUNT}}/{{.DOCKER_IMAGE}}:{{.DOCKER_IMAGE_TAG}}"
 
 tasks:
@@ -17,7 +17,12 @@ tasks:
     desc: Build docker image
     cmds:
       - cmd: |
-          docker \
-          build \
+          docker build \
           -t {{.DOCKER_IMAGE_FQDN}} \
           .
+
+  "push":
+    desc: Push image to registry
+    cmds:
+      - cmd: |
+          docker push {{.DOCKER_IMAGE_FQDN}}
